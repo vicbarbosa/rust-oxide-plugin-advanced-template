@@ -47,12 +47,15 @@
             Instance = this;
         }
 
-        private void OnServerInitialized()
+        private void OnServerInitialized(bool initial)
         {
+            if (initial)
+                Setup();
         }
 
         private void Unload()
         {
+            SaveData();
         }
 
         private void Setup()
@@ -66,9 +69,9 @@
 
         private void SaveData()
         {
-            DataFile1.WriteObject(Areas.Serialize());
-            DataFile2.WriteObject(Factions.Serialize());
-            DataFile3.WriteObject(Wars.Serialize());
+            //DataFile1.WriteObject(Areas.Serialize());
+            //DataFile2.WriteObject(Factions.Serialize());
+            //DataFile3.WriteObject(Wars.Serialize());
         }
 
         private IEnumerable<T> TryLoad<T>(DynamicConfigFile file)
