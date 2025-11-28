@@ -10,25 +10,20 @@
     using System.IO;
 
 
-    [Info("MyPlugin", "yourname", "1.0.0")]
+    [Info("MyPlugin", "Author Name", "1.0.0")]
     [Description("My plugin description")]
     public partial class MyPlugin : RustPlugin
     {
-
+        private bool Ready = false;
         private static MyPlugin Instance;
         private DynamicConfigFile DataFile1;
-        private DynamicConfigFile DataFile2;
-        private DynamicConfigFile DataFile3;
         private MyPluginOptions Options; 
         private UserManager Users = new UserManager();
 
 
         private void Init()
         {
-            DataFile1 = GetDataFile("datafile1");
-            DataFile2 = GetDataFile("datafile2");
-            DataFile3 = GetDataFile("datafile3");
-
+            DataFile1 = GetDataFile("users");
         }
 
         private void Loaded()
@@ -46,6 +41,8 @@
             }
 
             Instance = this;
+
+            if (TerrainMeta.Size.x > 0) Setup();
         }
 
         private void OnServerInitialized(bool initial)
@@ -61,6 +58,11 @@
 
         private void Setup()
         {
+            Users = new UserManager();
+            Users.Init(TryLoad<UserInfo>(DataFile1));
+            PrintToChat($"{Title} v{Version} initialized.");
+            Ready = true;
+
         }
 
         private void OnServerSave()
@@ -71,8 +73,6 @@
         private void SaveData()
         {
             DataFile1.WriteObject(Users.Serialize());
-            //DataFile2.WriteObject(Factions.Serialize());
-            //DataFile3.WriteObject(Wars.Serialize());
         }
 
         private IEnumerable<T> TryLoad<T>(DynamicConfigFile file)
