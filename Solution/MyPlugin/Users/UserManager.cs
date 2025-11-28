@@ -48,6 +48,35 @@
                 return user;
             }
 
+            public User Get(BasePlayer player)
+            {
+                return Get(player.UserIDString);
+            }
+
+            public User Add(BasePlayer player)
+            {
+                Remove()
+            }
+
+            public bool Remove(BasePlayer player)
+            {
+                User user = Get(player);
+                if (user == null) return false;
+
+                UnityEngine.Object.DestroyImmediate(user);
+                Users.Remove(player.UserIDString);
+
+                return true;
+            }
+
+            public void ResetAllScores()
+            {
+                foreach (var user in Users.Values)
+                {
+                    user.ResetScore();
+                }
+            }
+
             public User GetByHighestScore()
             {
                 return Users.Values.OrderByDescending(user => user.Score).FirstOrDefault();

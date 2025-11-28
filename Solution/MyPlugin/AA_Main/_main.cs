@@ -16,14 +16,14 @@
     {
         private bool Ready = false;
         private static MyPlugin Instance;
-        private DynamicConfigFile DataFile1;
+        private DynamicConfigFile UsersFile;
         private MyPluginOptions Options; 
         private UserManager Users = new UserManager();
 
 
         private void Init()
         {
-            DataFile1 = GetDataFile("users");
+            UsersFile = GetDataFile("users");
         }
 
         private void Loaded()
@@ -59,7 +59,7 @@
         private void Setup()
         {
             Users = new UserManager();
-            Users.Init(TryLoad<UserInfo>(DataFile1));
+            Users.Init(TryLoad<UserInfo>(UsersFile));
             PrintToChat($"{Title} v{Version} initialized.");
             Ready = true;
 
@@ -72,7 +72,7 @@
 
         private void SaveData()
         {
-            DataFile1.WriteObject(Users.Serialize());
+            UsersFile.WriteObject(Users.Serialize());
         }
 
         private IEnumerable<T> TryLoad<T>(DynamicConfigFile file)
@@ -101,6 +101,19 @@
         private DynamicConfigFile GetDataFile(string name)
         {
             return Interface.Oxide.DataFileSystem.GetFile(Name + Path.DirectorySeparatorChar + name);
+        }
+
+        public void ChatAnnouncement(string format, params object[] args)
+        {
+            foreach (User user in Instance.Users.GetAll())
+            {
+                if (user.player)
+                {
+                    string message = Instance.lang.GetMessage(format, Instance, user.player.userID.ToString());
+                    user.SendChatMessage(message, args);
+                }
+            }
+
         }
     }
 

@@ -36,9 +36,27 @@
                 }
             }
 
-            public void SendChatMessage()
+            public void AddScore(int amount)
             {
-                player.ChatMessage($"User Info - Name: {Name}, Id: {Id}, Score: {Score}");
+                if(Score < Instance.Options.Users.MaxScore)
+                    Score += amount;
+                else
+                {
+                    Instance.ChatAnnouncement(nameof(Messages.MaxScoreReached), player.name, Instance.Options.Users.MaxScore);
+                    Instance.Users.ResetAllScores();
+                }
+                    
+            }
+
+            public void ResetScore()
+            {
+                Score = 0;
+            }
+
+            public void SendChatMessage(string message, params object[] args)
+            {
+                string format = Instance.lang.GetMessage(message, Instance, player.UserIDString);
+                Instance.SendReply(player, format, args);
             }
 
             public UserInfo Serialize()
@@ -50,6 +68,8 @@
                     Score = this.Score
                 };
             }
+
+
         }
     }
 }

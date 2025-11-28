@@ -8,10 +8,7 @@
     {
         private static class Messages
         {
-            public const string HelloWorld = "Hello World!";
-            public const string TemplateMessage =
-                "<color=#00ff00>This is a colored text</color> followed by parameter 0: <color=#ffd479>[{0}]</color>, parameter 1: <color=#ffd479>{1}</color> and parameter 2: {2}.";
-
+            public const string MaxScoreReached = "Player <color=#00ff00>{0}</color reached max score of {1}! Reseting all player scores!";
 
             public static string Get(string key, string userId = null)
             {

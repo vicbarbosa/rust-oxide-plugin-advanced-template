@@ -6,11 +6,11 @@
     {
         private class MyPluginOptions
         {
-            [JsonProperty("subOptions1")] public SubOptions Sub = new SubOptions();
+            [JsonProperty("users")] public UserOptions Users = new UserOptions();
 
             public static MyPluginOptions Default = new MyPluginOptions
             {
-                Sub = SubOptions.Default,
+                Users = UserOptions.Default,
             };
         }
 
