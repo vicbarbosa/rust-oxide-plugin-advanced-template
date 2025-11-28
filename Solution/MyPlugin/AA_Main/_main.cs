@@ -20,6 +20,7 @@
         private DynamicConfigFile DataFile2;
         private DynamicConfigFile DataFile3;
         private MyPluginOptions Options; 
+        private UserManager Users = new UserManager();
 
 
         private void Init()
@@ -69,7 +70,7 @@
 
         private void SaveData()
         {
-            //DataFile1.WriteObject(Areas.Serialize());
+            DataFile1.WriteObject(Users.Serialize());
             //DataFile2.WriteObject(Factions.Serialize());
             //DataFile3.WriteObject(Wars.Serialize());
         }

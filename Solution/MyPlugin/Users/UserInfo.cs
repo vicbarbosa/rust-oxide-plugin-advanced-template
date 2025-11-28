@@ -8,7 +8,7 @@ namespace Oxide.Plugins
     {
         private class UserInfo
         {
-            [JsonProperty("id")] public ulong Id { get; set; } = 0;
+            [JsonProperty("id")] public string Id { get; set; } = "";
             [JsonProperty("name")] public string Name { get; set; } = "unknown";
             [JsonProperty("score")] public int Score { get; set; } = 0;
         }

@@ -7,11 +7,11 @@
         private class User : MonoBehaviour
         {
             public string Name { get; private set; }
-            public ulong Id { get; private set; }
+            public string Id { get; private set; }
 
             public int Score { get; private set; }
 
-            private BasePlayer player;
+            public BasePlayer player;
 
             public void TryLoadInfo(UserInfo userInfo)
             {
@@ -20,14 +20,25 @@
                 Score = userInfo.Score;
             }
 
-            public void Init()
+            public void Init(UserInfo? info)
             {
                 player = GetComponent<BasePlayer>();
+
+                if(info == null)
+                {
+                    Name = player.displayName;
+                    Id = player.UserIDString;
+                    Score = 0;
+                }
+                else
+                {
+                    TryLoadInfo(info);
+                }
             }
 
-            public void Log()
+            public void SendChatMessage()
             {
-                Instance.Log($"Logged player {Name} ({Id}) {Score}");
+                player.ChatMessage($"User Info - Name: {Name}, Id: {Id}, Score: {Score}");
             }
 
             public UserInfo Serialize()
